@@ -18,7 +18,7 @@ print "Name is: $name\n";
 print "Using url: $url\n";
 
 my $path_to_gz = $dirname . "/" . $gz_fullname;
-`curl $url > $fullpath`;
+`curl $url > $path_to_gz`;
 print "Stored as $path_to_gz\n";
 
 my $path_to_pdb = $dirname . "/" . $fullname;
@@ -83,6 +83,7 @@ my @atomdata=@{$atomdata};
 @atomdata = @atomdata[0..$count];
 $atomdata = new Array<String>(@atomdata);
 
+save($atomdata,$dirname . "/" . $name . "-polymake.txt");
 for (my $i=0 ; $i<$count ; $i++) {
     print $atomdata->[$i],"\n";
 }
