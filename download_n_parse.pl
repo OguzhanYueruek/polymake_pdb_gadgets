@@ -50,12 +50,10 @@ print $total;
 close(INPUTFILE);
 
 
-my $atomdata = new Array<Array<String>>($total);
-my $count = 0;
 
-my @propnames = ("Atom No","AtomPos","Aminoacid","Chain","Sequence No","X-axis","Y-axis","Z-axis","Element");
-$atomdata->[0] = new Array<String>(@propnames);
-$count++;
+my $propnames = new Array<String>("AtomPos","Aminoacid","Chain","Sequence No","X-axis","Y-axis","Z-axis","Element");
+my $atomdata = new Map<Int, Array<String>>([[0, $propnames]]);
+my $count = 1;
 
 for (my $line = 0; $line <scalar @data; $line++) {
     if ($data[$line]=~/^HEADER\s+(.*?)$/) {
@@ -71,19 +69,19 @@ for (my $line = 0; $line <scalar @data; $line++) {
 
     if ($data[$line] =~ m/ATOM\s+(\d+)\s+(\S+)\s+(\w{3})\s+(.+)\s+(\d+)\s+(\d+\.\d+)\s+(\d+\.\d+)\s+(\d+\.\d+).+(\w{1})/i) {
 
-        my @linedata = ($1,$2,$3,$4,$5,$6,$7,$8,$9);
-        $atomdata->[$count] = new Array<String>(@linedata);
+        my @linedata = ($2,$3,$4,$5,$6,$7,$8,$9);
+        my $linedata = new Array<String>(@linedata);
+        my $index = new Int($1);
+        print $linedata,"\n";
+        $atomdata->{$index} = $linedata;
         $count++;
-        #$atom_data{"Atom No"} = $1;
     }
-
-
 }
-my @atomdata=@{$atomdata};
-@atomdata = @atomdata[0..$count];
-$atomdata = new Array<String>(@atomdata);
 
-save($atomdata,$dirname . "/" . $name . "-polymake.txt");
-for (my $i=0 ; $i<$count ; $i++) {
-    print $atomdata->[$i],"\n";
+
+
+
+save($atomdata,$dirname . "/" . $name . "-map.txt");
+while (my ($k,$v)=each %$atomdata) {
+   print $k, ":      ", $v, "\n";
 }
