@@ -23,7 +23,6 @@ while (my ($k,$v)=each %$atomdata) {
    my $chain = $v->[2];
    $chain =~ s/^\s+|\s+$//g;
    if ($chain eq "A"){
-      print "foo\n";
       my $new_atom_coord_1 = new Vector<Rational>([1,$v->[4],$v->[5],$v->[6]]);
       push @atom_coords_1,$new_atom_coord_1;
 
@@ -42,14 +41,15 @@ while (my ($k,$v)=each %$atomdata) {
 }
 
 #Centering
-=pod
-my @atom_coords = ();
+
+my @atom_coords;
 push @atom_coords,@atom_coords_1;
-push
+push @atom_coords,@atom_coords_2;
+push @atom_coords,@atom_coords_3;
 my $atom_coords_pm = new Array<Vector<Rational>>(\@atom_coords);
 my $P = new Polytope<Rational>(POINTS=>$atom_coords_pm);
 my $bary = new Vector<Rational>( @{barycenter($P->VERTICES)}[1..3]);
-=cut
+
 
 my $atom_coords_1_pm = new Array<Vector<Rational>>(\@atom_coords_1);
 my $P1 = new Polytope<Rational>(POINTS=>$atom_coords_1_pm);
