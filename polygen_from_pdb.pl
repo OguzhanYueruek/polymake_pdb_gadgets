@@ -55,7 +55,7 @@ while (my ($k,$v)=each %$atomdata) {
 
 
 # take approximate mid point
-  if ($atom_num == 3 || $atom_num == 8) {
+  if ($atom_num == 3 || $atom_num == 5) {
     $new_atom_coord = new Vector<Rational>([1,$v->[4],$v->[5],$v->[6]]);
     print "MID ", $new_atom_coord, " * \n";
     push @geodesic_vertices, $new_atom_coord;
@@ -82,5 +82,5 @@ $bounding_geodesic_hull = translate($bounding_geodesic_hull ,-$bary);
 compose($P->VISUAL,$bounding_geodesic_hull->VISUAL(FacetColor=>'blue'));
 
 
-#print "\n",$P->VOLUME;
+print "\n", $bounding_geodesic_hull->VOLUME / $P->VOLUME;
 #2save($P,$dirname . "/" . $name . "-nonscaled-" . $limit . ".poly");
